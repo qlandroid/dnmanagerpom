@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dnmanager-pom.iml" filepath="$PROJECT_DIR$/dnmanager-pom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager-dal/manager-dal.iml" filepath="$PROJECT_DIR$/manager-dal/manager-dal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager-domain/manager-domain.iml" filepath="$PROJECT_DIR$/manager-domain/manager-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager-web/manager-web.iml" filepath="$PROJECT_DIR$/manager-web/manager-web.iml" />
+    </modules>
+  </component>
+</project>

@@ -28,7 +28,7 @@
         <hadoop.version>2.7.1</hadoop.version>
         <spring-data-mongodb.version>1.9.2.RELEASE</spring-data-mongodb.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <JAVA_HOME>/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home</JAVA_HOME>
+        <JAVA_HOME>/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home</JAVA_HOME>
     </properties>
 
     <dependencies>

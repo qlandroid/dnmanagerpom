@@ -11,6 +11,9 @@ public class Result {
     private Object data;
     private String message;
 
+    private Long total;
+    private Integer pageSizes;
+
     public int getCode() {
         return code;
     }
@@ -43,6 +46,23 @@ public class Result {
         this.message = message;
     }
 
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
+    public Integer getPageSizes() {
+        return pageSizes;
+    }
+
+    public void setPageSizes(Integer pageSizes) {
+        this.pageSizes = pageSizes;
+    }
+
     public static Result ok() {
         Result r = new Result();
         r.setCode(200);
@@ -62,6 +82,18 @@ public class Result {
         if (l == null) {
             l = new ArrayList();
         }
+        r.setList(l);
+        return r;
+    }
+
+    public static Result okList(List l, Long total, int pages) {
+        Result r = new Result();
+        r.setCode(200);
+        if (l == null) {
+            l = new ArrayList();
+        }
+        r.setTotal(total);
+        r.setPageSizes(pages);
         r.setList(l);
         return r;
     }

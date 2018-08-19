@@ -6,20 +6,17 @@ import com.dnmanager.bean.PowerRecordExt;
 import com.dnmanager.bean.TotalE;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.dao.*;
-import com.dnmanager.pojo.Device;
-import com.dnmanager.pojo.UserDevice;
-import com.dnmanager.pojo.UserDeviceExample;
-import com.dnmanager.pojo.Warn;
+import com.dnmanager.pojo.*;
 import com.dnmanager.select.WarnSelect;
 import com.dnmanager.service.IDevService;
 import com.dnmanager.utils.DateUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service("devService")
 public class DevService implements IDevService {
@@ -37,11 +34,24 @@ public class DevService implements IDevService {
     PowerRecordExtMapper powerRecordExtMapper;
     @Autowired
     WarnExtMapper warnExtMapper;
+    @Autowired
+    TransactionMapper transactionMapper;
+
+    @Autowired
+    UserDeviceExtMapper userDeviceExtMapper;
+    @Autowired
+    OperatorMapper operatorMapper;
 
 
     @Override
-    public List<Device> getDevListByUserId(Integer userId) {
-        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, null);
+    public List<Device> getDevListByUserId(Integer userId, String devCode) {
+        if (!StringUtils.isNullOrEmpty(devCode)) {
+            devCode = "%" + devCode + "%";
+        } else {
+            devCode = null;
+        }
+        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, null, devCode);
+
         return devices;
     }
 
@@ -109,7 +119,7 @@ public class DevService implements IDevService {
         devDetails.setPower(status + "");
         //获得单价
         // TODO: 2018/8/18 电量表未获得
-//        devDetails.setUnit();
+        devDetails.setUnit(1.5);
 
         //获得剩余金额
         Integer buyElectric = device.getBuyElectric();
@@ -152,7 +162,7 @@ public class DevService implements IDevService {
     @Override
     public WarnMain warnByMain(Integer userId) {
         WarnMain main = new WarnMain();
-        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, null);
+        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, null, null);
         if (devices == null || devices.size() == 0) {
             main.setIsHasDev(WarnMain.DEV_NO_HAS);
             return main;
@@ -184,6 +194,150 @@ public class DevService implements IDevService {
 
     }
 
+    @Override
+    public Page warnListByUserId(Integer userId, Integer index, Integer pageSize) {
+        if (index <= 0) {
+            index = 1;
+        }
+        if (pageSize <= 0) {
+            pageSize = 20;
+        }
+
+        Page page = PageHelper.startPage(index, pageSize, "wtime DESC");
+
+        WarnSelect s = new WarnSelect();
+        s.setUserId(userId);
+        List<Warn> warns = warnExtMapper.selectWarnAllByUserId(s);
+
+        for (Object o : page.getResult()) {
+            if (o instanceof Warn) {
+                Warn w = (Warn) o;
+                Device device = deviceMapper.selectByPrimaryKey(w.getDeviceId());
+                w.setDevice(device);
+            }
+        }
+        return page;
+    }
+
+    @Override
+    public Page getTransaction(Integer userId, Integer index, Integer pageSize) {
+        Page page = PageHelper.startPage(index, pageSize, "create_time DESC");
+        TransactionExample t = new TransactionExample();
+        TransactionExample.Criteria criteria = t.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        transactionMapper.selectByExample(t);
+        return page;
+    }
+
+    @Override
+    public List selectStopDevByUserId(Integer userId, String type) {
+
+        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, null, null);
+
+        List<Warn> list = new ArrayList<>();
+        for (Device device : devices) {
+            Integer buyElectric = device.getBuyElectric();
+            Integer electric = device.getElectric();
+
+            int i = buyElectric - electric;//剩余电量
+
+
+            String warn;
+            if (i <= 0 && "0".equals(type)) {
+                warn = "购买电量已用完，请充值!";
+            } else if (i > 0 && i < 50 && "1".equals(type)) {
+                warn = "当前电量已不足50度，请及时充值!!!";
+            } else {
+                continue;
+            }
+
+            Warn w = new Warn();
+            w.setDevice(device);
+            w.setCode(device.getCode());
+            w.setWarn(warn);
+            list.add(w);
+        }
+        return list;
+    }
+
+    @Override
+    public List selectUseEleOfYearByDevId(Integer userId, Integer devId) {
+
+        checkUserHasDev(devId, userId);
+
+
+        PowerRecordExt p = new PowerRecordExt();
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        c.clear();
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (int i1 = 0; i1 < 10; i1++) {
+            c.set(year, 0, 1);
+            long startT = c.getTimeInMillis();
+            c.clear();
+            c.set(year + 1, 0, 1);
+            long endT = c.getTimeInMillis() - 1;
+            p.setEndD(endT);
+
+            p.setStartD(startT);
+            Long powerRecordSum = powerRecordExtMapper.getPowerRecordSum(p);
+            Map<String, Object> map = new HashMap<>();
+            if (powerRecordSum == null) {
+                powerRecordSum = 0l;
+            }
+            map.put("year", year);
+            map.put("totalE", powerRecordSum);
+            list.add(map);
+            year = year - 1;
+        }
+
+
+        return list;
+    }
+
+    @Override
+    public List selectUseEleOfMonthByDevId(Integer userId, Integer devId, Integer year, Integer month) {
+
+        checkUserHasDev(devId, userId);
+
+
+        PowerRecordExt p = new PowerRecordExt();
+
+        Calendar c = Calendar.getInstance();
+        c.clear();
+        List<Map<String, Object>> list = new ArrayList<>();
+        c.set(year, month - 1, 1);
+        long startT = c.getTimeInMillis();
+        c.set(year, month, 1);
+        long stopP = c.getTimeInMillis() - 1;
+        long endT = -1;
+
+        int day = 1;
+        while (endT < stopP) {
+
+            c.set(year, month - 1, day + 1);
+            long timeInMillis = c.getTimeInMillis();
+            endT = timeInMillis - 1;
+
+            p.setEndD(endT);
+
+            p.setStartD(startT);
+            Long powerRecordSum = powerRecordExtMapper.getPowerRecordSum(p);
+            if (powerRecordSum == null) {
+                powerRecordSum = 0l;
+            }
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("day", day);
+            map.put("totalE", powerRecordSum);
+            list.add(map);
+            day++;
+            startT = timeInMillis;
+        }
+        return list;
+    }
+
 
     public void checkUserHasDev(Integer devId, Integer userId) {
         Device device = deviceMapper.selectByPrimaryKey(devId);
@@ -191,7 +345,7 @@ public class DevService implements IDevService {
             throw new HaltException("未找到指定设备");
         }
 
-        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, devId);
+        List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, devId, null);
         if (devices == null || devices.size() == 0) {
             throw new HaltException("设备不属于当前用户，请重新操作");
         }

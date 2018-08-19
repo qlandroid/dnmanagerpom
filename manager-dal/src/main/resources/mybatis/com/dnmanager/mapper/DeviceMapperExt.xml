@@ -46,6 +46,11 @@
         <if test="devId != null and devId != 0">
             AND ud.device_id = #{devId,jdbcType=INTEGER}
         </if>
+        <if test="devCode != null">
+            <![CDATA[
+                and d.code like  #{devCode,jdbcType=INTEGER}
+            ]]>
+        </if>
 
     </select>
 </mapper>

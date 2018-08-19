@@ -18,7 +18,7 @@ public interface DeviceExtMapper {
      * @param userId
      * @return
      */
-    List<Device> selectDevListByUserId(@Param("userId") Integer userId, @Param("devId") Integer devId);
+    List<Device> selectDevListByUserId(@Param("userId") Integer userId, @Param("devId") Integer devId, @Param("devCode") String devCode);
 
 
 }

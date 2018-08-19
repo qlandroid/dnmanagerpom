@@ -3,6 +3,7 @@ package com.dnmanager.service;
 import com.dnmanager.bean.DevDetails;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
+import com.github.pagehelper.Page;
 
 import java.util.List;
 
@@ -13,9 +14,10 @@ public interface IDevService {
      * 通过用户id 查询 设备列表
      *
      * @param userId
+     * @param devCode
      * @return
      */
-    List<Device> getDevListByUserId(Integer userId);
+    List<Device> getDevListByUserId(Integer userId, String devCode);
 
     /**
      * 通过设备id 查询设备详情
@@ -57,4 +59,14 @@ public interface IDevService {
     void setDevRunStatus(Integer userId, Integer devId, Integer runStatus);
 
     WarnMain warnByMain(Integer userId);
+
+    Page warnListByUserId(Integer userId, Integer index, Integer pageSize);
+
+    Page getTransaction(Integer userId, Integer index, Integer pageSize);
+
+    List selectStopDevByUserId(Integer userId,String type);
+
+    List selectUseEleOfYearByDevId(Integer userId, Integer devId);
+
+    List selectUseEleOfMonthByDevId(Integer userId, Integer devId, Integer year, Integer month);
 }

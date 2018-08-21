@@ -15,7 +15,7 @@
       <module name="dnmanager-dal" target="1.8" />
       <module name="dnmanager-pom" target="1.8" />
       <module name="manager-dal" target="1.8" />
-      <module name="manager-domain" target="1.7" />
+      <module name="manager-domain" target="1.8" />
       <module name="manager-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>

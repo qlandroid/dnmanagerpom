@@ -13,6 +13,9 @@
     <result column="is_lock" jdbcType="TINYINT" property="isLock" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="free_test" jdbcType="INTEGER" property="freeTest" />
+    <result column="v_account" jdbcType="VARCHAR" property="vAccount" />
+    <result column="v_password" jdbcType="VARCHAR" property="vPassword" />
+    <result column="v_phone" jdbcType="VARCHAR" property="vPhone" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, username, nickname, password, reg_time, reg_ip, login_time, login_ip, is_lock, 
-    status, free_test
+    status, free_test, v_account, v_password, v_phone
   </sql>
   <select id="selectByExample" parameterType="com.dnmanager.pojo.UserExample" resultMap="BaseResultMap">
     select
@@ -110,11 +113,13 @@
     insert into user (id, username, nickname, 
       password, reg_time, reg_ip, 
       login_time, login_ip, is_lock, 
-      status, free_test)
+      status, free_test, v_account, 
+      v_password, v_phone)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{regTime,jdbcType=INTEGER}, #{regIp,jdbcType=VARCHAR}, 
       #{loginTime,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, #{isLock,jdbcType=TINYINT}, 
-      #{status,jdbcType=SMALLINT}, #{freeTest,jdbcType=INTEGER})
+      #{status,jdbcType=SMALLINT}, #{freeTest,jdbcType=INTEGER}, #{vAccount,jdbcType=VARCHAR}, 
+      #{vPassword,jdbcType=VARCHAR}, #{vPhone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dnmanager.pojo.User">
     insert into user
@@ -152,6 +157,15 @@
       <if test="freeTest != null">
         free_test,
       </if>
+      <if test="vAccount != null">
+        v_account,
+      </if>
+      <if test="vPassword != null">
+        v_password,
+      </if>
+      <if test="vPhone != null">
+        v_phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -186,6 +200,15 @@
       </if>
       <if test="freeTest != null">
         #{freeTest,jdbcType=INTEGER},
+      </if>
+      <if test="vAccount != null">
+        #{vAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="vPassword != null">
+        #{vPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="vPhone != null">
+        #{vPhone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +254,15 @@
       <if test="record.freeTest != null">
         free_test = #{record.freeTest,jdbcType=INTEGER},
       </if>
+      <if test="record.vAccount != null">
+        v_account = #{record.vAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vPassword != null">
+        v_password = #{record.vPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vPhone != null">
+        v_phone = #{record.vPhone,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +280,10 @@
       login_ip = #{record.loginIp,jdbcType=VARCHAR},
       is_lock = #{record.isLock,jdbcType=TINYINT},
       status = #{record.status,jdbcType=SMALLINT},
-      free_test = #{record.freeTest,jdbcType=INTEGER}
+      free_test = #{record.freeTest,jdbcType=INTEGER},
+      v_account = #{record.vAccount,jdbcType=VARCHAR},
+      v_password = #{record.vPassword,jdbcType=VARCHAR},
+      v_phone = #{record.vPhone,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +321,15 @@
       <if test="freeTest != null">
         free_test = #{freeTest,jdbcType=INTEGER},
       </if>
+      <if test="vAccount != null">
+        v_account = #{vAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="vPassword != null">
+        v_password = #{vPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="vPhone != null">
+        v_phone = #{vPhone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -300,7 +344,10 @@
       login_ip = #{loginIp,jdbcType=VARCHAR},
       is_lock = #{isLock,jdbcType=TINYINT},
       status = #{status,jdbcType=SMALLINT},
-      free_test = #{freeTest,jdbcType=INTEGER}
+      free_test = #{freeTest,jdbcType=INTEGER},
+      v_account = #{vAccount,jdbcType=VARCHAR},
+      v_password = #{vPassword,jdbcType=VARCHAR},
+      v_phone = #{vPhone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.dnmanager.pojo.UserExample" resultMap="BaseResultMap">

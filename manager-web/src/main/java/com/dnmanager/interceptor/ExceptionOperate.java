@@ -25,7 +25,9 @@ public class ExceptionOperate {
         if (ex instanceof HaltException) {
             writer.append(gson.toJson(Result.error(ex.getMessage())));
         } else if (ex instanceof NullPointerException) {
-            writer.append(gson.toJson(Result.error("妈的，出现异常了！！！")));
+            writer.append(gson.toJson(Result.error("当初说好的，我要什么你都会给我的!!!")));
+        } else if(ex instanceof ClassCastException){
+            writer.append(gson.toJson(Result.error("请检查你的三围尺寸!!!")));
         } else {
             ex.printStackTrace();
             writer.append(gson.toJson(Result.error("服务器异常，抢修中")));

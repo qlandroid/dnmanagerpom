@@ -23,6 +23,12 @@ public class User {
 
     private Integer freeTest;
 
+    private String vAccount;
+
+    private String vPassword;
+
+    private String vPhone;
+
     public Integer getId() {
         return id;
     }
@@ -109,5 +115,29 @@ public class User {
 
     public void setFreeTest(Integer freeTest) {
         this.freeTest = freeTest;
+    }
+
+    public String getvAccount() {
+        return vAccount;
+    }
+
+    public void setvAccount(String vAccount) {
+        this.vAccount = vAccount == null ? null : vAccount.trim();
+    }
+
+    public String getvPassword() {
+        return vPassword;
+    }
+
+    public void setvPassword(String vPassword) {
+        this.vPassword = vPassword == null ? null : vPassword.trim();
+    }
+
+    public String getvPhone() {
+        return vPhone;
+    }
+
+    public void setvPhone(String vPhone) {
+        this.vPhone = vPhone == null ? null : vPhone.trim();
     }
 }

@@ -813,6 +813,216 @@ public class UserExample {
             addCriterion("free_test not between", value1, value2, "freeTest");
             return (Criteria) this;
         }
+
+        public Criteria andVAccountIsNull() {
+            addCriterion("v_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountIsNotNull() {
+            addCriterion("v_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountEqualTo(String value) {
+            addCriterion("v_account =", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountNotEqualTo(String value) {
+            addCriterion("v_account <>", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountGreaterThan(String value) {
+            addCriterion("v_account >", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("v_account >=", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountLessThan(String value) {
+            addCriterion("v_account <", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountLessThanOrEqualTo(String value) {
+            addCriterion("v_account <=", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountLike(String value) {
+            addCriterion("v_account like", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountNotLike(String value) {
+            addCriterion("v_account not like", value, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountIn(List<String> values) {
+            addCriterion("v_account in", values, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountNotIn(List<String> values) {
+            addCriterion("v_account not in", values, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountBetween(String value1, String value2) {
+            addCriterion("v_account between", value1, value2, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVAccountNotBetween(String value1, String value2) {
+            addCriterion("v_account not between", value1, value2, "vAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordIsNull() {
+            addCriterion("v_password is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordIsNotNull() {
+            addCriterion("v_password is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordEqualTo(String value) {
+            addCriterion("v_password =", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordNotEqualTo(String value) {
+            addCriterion("v_password <>", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordGreaterThan(String value) {
+            addCriterion("v_password >", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordGreaterThanOrEqualTo(String value) {
+            addCriterion("v_password >=", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordLessThan(String value) {
+            addCriterion("v_password <", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordLessThanOrEqualTo(String value) {
+            addCriterion("v_password <=", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordLike(String value) {
+            addCriterion("v_password like", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordNotLike(String value) {
+            addCriterion("v_password not like", value, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordIn(List<String> values) {
+            addCriterion("v_password in", values, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordNotIn(List<String> values) {
+            addCriterion("v_password not in", values, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordBetween(String value1, String value2) {
+            addCriterion("v_password between", value1, value2, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPasswordNotBetween(String value1, String value2) {
+            addCriterion("v_password not between", value1, value2, "vPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneIsNull() {
+            addCriterion("v_phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneIsNotNull() {
+            addCriterion("v_phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneEqualTo(String value) {
+            addCriterion("v_phone =", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneNotEqualTo(String value) {
+            addCriterion("v_phone <>", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneGreaterThan(String value) {
+            addCriterion("v_phone >", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("v_phone >=", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneLessThan(String value) {
+            addCriterion("v_phone <", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneLessThanOrEqualTo(String value) {
+            addCriterion("v_phone <=", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneLike(String value) {
+            addCriterion("v_phone like", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneNotLike(String value) {
+            addCriterion("v_phone not like", value, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneIn(List<String> values) {
+            addCriterion("v_phone in", values, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneNotIn(List<String> values) {
+            addCriterion("v_phone not in", values, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneBetween(String value1, String value2) {
+            addCriterion("v_phone between", value1, value2, "vPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andVPhoneNotBetween(String value1, String value2) {
+            addCriterion("v_phone not between", value1, value2, "vPhone");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

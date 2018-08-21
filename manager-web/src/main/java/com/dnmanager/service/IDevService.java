@@ -69,4 +69,6 @@ public interface IDevService {
     List selectUseEleOfYearByDevId(Integer userId, Integer devId);
 
     List selectUseEleOfMonthByDevId(Integer userId, Integer devId, Integer year, Integer month);
+
+    Device selectDevByCode(String devCode);
 }

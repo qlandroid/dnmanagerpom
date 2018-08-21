@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/dev", method = RequestMethod.POST)
+@RequestMapping(path = "/dev")
 public class DevController {
     Logger logger = Logger.getLogger(DevController.class);
 
@@ -94,7 +94,6 @@ public class DevController {
                 throw new HaltException("玩我呢，你在仔细检查一下");
 
             }
-            //Device devByDevId = devService.getDevDetails(userId, devId);
             DevDetails devDetails = devService.getDevDetails((Integer) userId, (Integer) devId);
             return Result.ok(devDetails);
         } catch (HaltException e) {
@@ -108,26 +107,19 @@ public class DevController {
     /**
      * 设置设备别名
      *
-     * @param userId 用户ID
-     * @param devId  设备唯一id
      * @return
      */
     @RequestMapping("setDevName")
     @ResponseBody
-    public Object setDevName(Integer devId, Integer userId, String nickName) {
-        try {
-            //Device devByDevId = devService.getDevDetails(userId, devId);
-            if (StringUtils.isNullOrEmpty(nickName)) {
-                nickName = "";
-            }
-            devService.setDevNickName(userId, devId, nickName);
-            return Result.ok();
-        } catch (HaltException e) {
-            return Result.error(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error("系统跑偏了，请稍后访问");
+    public Object setDevName(@RequestBody Map<String, Object> map) {
+        Integer devId = (Integer) map.get("devId");
+        Integer userId = (Integer) map.get("userId");
+        String nickName = (String) map.get("nickName");
+        if (StringUtils.isNullOrEmpty(nickName)) {
+            nickName = "";
         }
+        devService.setDevNickName(userId, devId, nickName);
+        return Result.ok();
     }
 
     /**
@@ -149,23 +141,20 @@ public class DevController {
     /**
      * 设置电表阀门开关
      *
-     * @param userId    用户ID
-     * @param devId     设备唯一id
-     * @param runStatus 设备运行状态 0-关闭，1-开启
      * @return
+     * @ userId    用户ID
+     * @ devId     设备唯一id
+     * @ runStatus 设备运行状态 0-关闭，1-开启
      */
     @RequestMapping("setDevRunStatus")
     @ResponseBody
-    public Object setDevRunStatus(Integer devId, Integer userId, Integer runStatus) {
-        try {
-            devService.setDevRunStatus(userId, devId, runStatus);
-            return Result.ok();
-        } catch (HaltException e) {
-            return Result.error(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error("系统跑偏了，请稍后访问");
-        }
+    public Object setDevRunStatus(@RequestBody Map<String, Object> map) {
+        Integer devId = (Integer) map.get("devId");
+        Integer userId = (Integer) map.get("userId");
+        Integer runStatus = (Integer) map.get("runStatus");
+        devService.setDevRunStatus(userId, devId, runStatus);
+        return Result.ok();
+
     }
 
     @RequestMapping("getWarnMsg")
@@ -258,10 +247,21 @@ public class DevController {
         } else if ("2".equals(type.toString())) {
             list = devService.selectUseEleOfYearByDevId((Integer) userId, (Integer) devId);
 
+        } else {
+            throw new HaltException("你确定你还爱我吗？你在确定一下我的胸围多少!");
         }
 
         return Result.okList(list);
 
+    }
+
+    @RequestMapping("getDevDetailsByCode")
+    @ResponseBody
+    public Object getDevDetailsByCode(@RequestBody Map<String, Object> map) {
+        String devCode = (String) map.get("devCode");
+
+        Device device = devService.selectDevByCode(devCode);
+        return Result.ok(device);
     }
 
 }

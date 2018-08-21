@@ -143,7 +143,8 @@ public class DevService implements IDevService {
         Device devUpdate = new Device();
         devUpdate.setId(devId);
         devUpdate.setNickname(devName);
-        int i = deviceMapper.updateByPrimaryKey(devUpdate);
+
+        int i = deviceMapper.updateByPrimaryKeySelective(devUpdate);
     }
 
     @Override
@@ -156,7 +157,7 @@ public class DevService implements IDevService {
         d.setId(devId);
 
         d.setdStatus(runStatus.shortValue());
-        deviceMapper.updateByPrimaryKey(d);
+        deviceMapper.updateByPrimaryKeySelective(d);
     }
 
     @Override
@@ -336,6 +337,18 @@ public class DevService implements IDevService {
             startT = timeInMillis;
         }
         return list;
+    }
+
+    @Override
+    public Device selectDevByCode(String devCode) {
+        DeviceExample e = new DeviceExample();
+        DeviceExample.Criteria criteria = e.createCriteria();
+        criteria.andCodeEqualTo(devCode);
+        List<Device> devices = deviceMapper.selectByExample(e);
+        if (devices == null || devices.size() == 0) {
+            throw new HaltException("没有查询到啊!!!");
+        }
+        return devices.get(0);
     }
 
 

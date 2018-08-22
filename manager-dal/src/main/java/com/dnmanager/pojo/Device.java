@@ -73,6 +73,8 @@ public class Device {
 
     private BigDecimal longitude;
 
+
+
     public Integer getId() {
         return id;
     }

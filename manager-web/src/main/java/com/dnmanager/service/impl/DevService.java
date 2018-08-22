@@ -42,6 +42,9 @@ public class DevService implements IDevService {
     @Autowired
     OperatorMapper operatorMapper;
 
+    @Autowired
+    VipMapper vipMapper;
+
 
     @Override
     public List<Device> getDevListByUserId(Integer userId, String devCode) {
@@ -153,6 +156,19 @@ public class DevService implements IDevService {
         if (runStatus != null && runStatus != 0 && runStatus != 1) {
             throw new HaltException("设置运行状态错误");
         }
+
+
+        VipExample v = new VipExample();
+        VipExample.Criteria criteria = v.createCriteria();
+        criteria.andUserIdEqualTo(userId)
+                .andDeviceIdEqualTo(devId)
+                .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
+        List<Vip> vips = vipMapper.selectByExample(v);
+        if (vips.size() == 0) {
+            throw new HaltException("未成为当前设备的会员");
+        }
+
+
         Device d = new Device();
         d.setId(devId);
 
@@ -349,6 +365,21 @@ public class DevService implements IDevService {
             throw new HaltException("没有查询到啊!!!");
         }
         return devices.get(0);
+    }
+
+    @Override
+    public Integer checkVip(Integer userId, Integer devId) {
+
+        VipExample v = new VipExample();
+        VipExample.Criteria criteria = v.createCriteria();
+        criteria.andUserIdEqualTo(userId)
+                .andDeviceIdEqualTo(devId)
+                .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
+        List<Vip> vips = vipMapper.selectByExample(v);
+        if (vips.size() == 0) {
+            throw new HaltException("未成为当前设备的会员");
+        }
+        return 1;
     }
 
 

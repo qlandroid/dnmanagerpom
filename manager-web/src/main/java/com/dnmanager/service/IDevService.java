@@ -3,6 +3,7 @@ package com.dnmanager.service;
 import com.dnmanager.bean.DevDetails;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
+import com.dnmanager.pojo.DeviceExt;
 import com.github.pagehelper.Page;
 
 import java.util.List;
@@ -71,4 +72,6 @@ public interface IDevService {
     List selectUseEleOfMonthByDevId(Integer userId, Integer devId, Integer year, Integer month);
 
     Device selectDevByCode(String devCode);
+
+    Integer checkVip(Integer userId, Integer devId);
 }

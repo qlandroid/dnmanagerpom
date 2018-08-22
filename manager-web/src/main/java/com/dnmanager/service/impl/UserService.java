@@ -1,6 +1,7 @@
 package com.dnmanager.service.impl;
 
 import com.dnmanager.HaltException;
+import com.dnmanager.bean.UserDetails;
 import com.dnmanager.dao.UserMapper;
 import com.dnmanager.pojo.User;
 import com.dnmanager.pojo.UserExample;
@@ -8,6 +9,7 @@ import com.dnmanager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Savepoint;
 import java.util.List;
 
 @Service
@@ -41,17 +43,35 @@ public class UserService implements IUserService {
 
     @Override
     public User login(User user) {
+        String account = user.getvAccount();
+
         UserExample u = new UserExample();
         UserExample.Criteria criteria = u.createCriteria();
-        criteria.andVAccountEqualTo(user.getvAccount());
+        criteria.andVAccountEqualTo(account);
         List<User> users = userMapper.selectByExample(u);
         if (users.size() == 0) {
-            throw new HaltException("账号不存在");
+            u.clear();
+            UserExample.Criteria vPhone = u.createCriteria();
+            vPhone.andVPhoneEqualTo(account);
+            List<User> vphones = userMapper.selectByExample(u);
+            if (vphones.size() == 0) {
+                throw new HaltException("账号不存在");
+            }
+
         }
         criteria.andVPasswordEqualTo(user.getvPassword());
         List<User> users1 = userMapper.selectByExample(u);
         if (users1.size() == 0) {
-            throw new HaltException("账号与密码不匹配");
+            u.clear();
+            UserExample.Criteria phone2 = u.createCriteria();
+            phone2.andVPhoneEqualTo(user.getvAccount())
+                    .andVPasswordEqualTo(user.getvPassword());
+
+            criteria.andVPasswordEqualTo(user.getvPassword());
+            List<User> phoneUser = userMapper.selectByExample(u);
+            if (users1.size() == 0) {
+                throw new HaltException("账号与密码不匹配");
+            }
         }
 
         return users1.get(0);
@@ -79,5 +99,17 @@ public class UserService implements IUserService {
 
 
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public UserDetails getUserDetails(User user) {
+
+        if (user.getId() == null) {
+            throw new HaltException("异常了");
+        }
+
+        User user1 = userMapper.selectByPrimaryKey(user.getId());
+
+        return null;
     }
 }

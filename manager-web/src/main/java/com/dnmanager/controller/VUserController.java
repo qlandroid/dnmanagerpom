@@ -3,7 +3,9 @@ package com.dnmanager.controller;
 
 import com.dnmanager.HaltException;
 import com.dnmanager.base.Result;
+import com.dnmanager.bean.UserDetails;
 import com.dnmanager.pojo.User;
+import com.dnmanager.service.IDevService;
 import com.dnmanager.service.IUserService;
 import com.dnmanager.utils.CheckUtils;
 import com.mysql.jdbc.StringUtils;
@@ -24,6 +26,8 @@ public class VUserController {
 
     @Autowired
     IUserService userService;
+    @Autowired
+    IDevService devService;
 
 
     @RequestMapping("reg")
@@ -109,4 +113,19 @@ public class VUserController {
 
         return Result.ok();
     }
+
+
+    @RequestMapping("getUserDetails")
+    @ResponseBody
+    public Object getUserDetails(@RequestBody Map<String, Object> map) {
+        User user = new User();
+        User userDetails = userService.getUserDetails(user);
+        Integer devCount = devService.getDevCountByUserId(user.getId());
+        UserDetails d = new UserDetails();
+        d.setUser(userDetails);
+        d.setDevCount(devCount);
+        return Result.ok(d);
+    }
+
 }
+

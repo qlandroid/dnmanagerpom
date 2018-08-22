@@ -74,4 +74,6 @@ public interface IDevService {
     Device selectDevByCode(String devCode);
 
     Integer checkVip(Integer userId, Integer devId);
+
+    Integer getDevCountByUserId(Integer id);
 }

@@ -382,6 +382,15 @@ public class DevService implements IDevService {
         return 1;
     }
 
+    @Override
+    public Integer getDevCountByUserId(Integer id) {
+        UserDeviceExample e = new UserDeviceExample();
+        UserDeviceExample.Criteria criteria = e.createCriteria();
+        criteria.andUsersIdEqualTo(id);
+        List<UserDevice> userDevices = userDeviceMapper.selectByExample(e);
+        return userDevices.size();
+    }
+
 
     public void checkUserHasDev(Integer devId, Integer userId) {
         Device device = deviceMapper.selectByPrimaryKey(devId);

@@ -9,7 +9,6 @@ import com.dnmanager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Savepoint;
 import java.util.List;
 
 @Service
@@ -36,6 +35,7 @@ public class UserService implements IUserService {
             throw new HaltException("手机已经被注册过了，请重新编写手机");
         }
         user.setPassword("app_account");
+        user.setRegTime((int)(System.currentTimeMillis() / 1000) );
         int i = userMapper.insertSelective(user);
 
         return true;
@@ -102,7 +102,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDetails getUserDetails(User user) {
+    public User getUserDetails(User user) {
 
         if (user.getId() == null) {
             throw new HaltException("异常了");

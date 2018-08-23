@@ -119,11 +119,14 @@ public class VUserController {
     @ResponseBody
     public Object getUserDetails(@RequestBody Map<String, Object> map) {
         User user = new User();
+        user.setId((Integer) map.get("userId"));
         User userDetails = userService.getUserDetails(user);
         Integer devCount = devService.getDevCountByUserId(user.getId());
         UserDetails d = new UserDetails();
-        d.setUser(userDetails);
+        d.setRegTime(userDetails.getRegTime());
+        d.setUserId(userDetails.getId());
         d.setDevCount(devCount);
+        d.setNickName(userDetails.getNickname());
         return Result.ok(d);
     }
 

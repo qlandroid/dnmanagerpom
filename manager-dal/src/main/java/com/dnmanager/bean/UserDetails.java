@@ -4,15 +4,33 @@ import com.dnmanager.pojo.User;
 
 public class UserDetails  {
 
-    private User user;
+    private Integer userId;
+    private Integer regTime;
     private Integer devCount;
+    private String nickName;
 
-    public User getUser() {
-        return user;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(Integer regTime) {
+        this.regTime = regTime;
     }
 
     public Integer getDevCount() {

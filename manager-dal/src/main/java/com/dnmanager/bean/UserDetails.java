@@ -1,7 +1,5 @@
 package com.dnmanager.bean;
 
-import com.dnmanager.pojo.User;
-
 public class UserDetails  {
 
     private Integer userId;

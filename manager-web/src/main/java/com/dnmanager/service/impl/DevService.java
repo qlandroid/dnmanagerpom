@@ -1,6 +1,7 @@
 package com.dnmanager.service.impl;
 
 import com.dnmanager.HaltException;
+import com.dnmanager.base.ErrorCode;
 import com.dnmanager.bean.DevDetails;
 import com.dnmanager.bean.PowerRecordExt;
 import com.dnmanager.bean.TotalE;
@@ -13,6 +14,8 @@ import com.dnmanager.utils.DateUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.mysql.jdbc.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import java.util.*;
 
 @Service("devService")
 public class DevService implements IDevService {
+
+    Logger logger = LoggerFactory.getLogger(DevService.class);
 
     @Autowired
     DeviceMapper deviceMapper;
@@ -73,16 +78,17 @@ public class DevService implements IDevService {
 
         Device device = deviceMapper.selectByPrimaryKey(devId);
         devDetails.setDevO(device);
-
+        logger.debug("开始查询");
         //获得总量
         Calendar s = Calendar.getInstance();
         PowerRecordExt e = new PowerRecordExt();
         e.setId(devId);
         Long powerRecordSum = powerRecordExtMapper.getPowerRecordSum(e);
         TotalE totalE = new TotalE();
+
         totalE.setTotalE(powerRecordSum);
         devDetails.setTotalE(totalE);
-
+        logger.debug("获得总量成功");
         //获得当前月的总量
         int month = s.get(Calendar.MONTH);
         int year = s.get(Calendar.YEAR);
@@ -95,6 +101,7 @@ public class DevService implements IDevService {
         monthE.setTotalE(recordByMonth);
         monthE.setYear(year);
         devDetails.setMonthE(monthE);
+        logger.debug("获得当前月的总量");
 
         //获得年度总量
         DateUtils.DateTime startAndEndTimeByYear = DateUtils.getStartAndEndTimeByYear(year);
@@ -107,6 +114,7 @@ public class DevService implements IDevService {
         devDetails.setYearE(yearE);
 
         devDetails.setBindDate(device.getTime());
+        logger.debug("获得年度总量");
 
         //获得权限
         UserDeviceExample u = new UserDeviceExample();
@@ -134,7 +142,7 @@ public class DevService implements IDevService {
             electric = 0;
         }
         devDetails.setBuyElectric(buyElectric - electric);
-
+        logger.debug("完成");
 
         return devDetails;
     }
@@ -165,7 +173,7 @@ public class DevService implements IDevService {
                 .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
         List<Vip> vips = vipMapper.selectByExample(v);
         if (vips.size() == 0) {
-            throw new HaltException("未成为当前设备的会员");
+            throw new HaltException(ErrorCode.ERROR_NO_VIP,"未成为当前设备的会员");
         }
 
 
@@ -262,8 +270,8 @@ public class DevService implements IDevService {
             String warn;
             if (i <= 0 && "0".equals(type)) {
                 warn = "购买电量已用完，请充值!";
-            } else if (i > 0 && i < 50 && "1".equals(type)) {
-                warn = "当前电量已不足50度，请及时充值!!!";
+            } else if (i > 0 && i < 100 && "1".equals(type)) {
+                warn = "当前电量已不足100度，请及时充值!!!";
             } else {
                 continue;
             }
@@ -362,7 +370,7 @@ public class DevService implements IDevService {
         criteria.andCodeEqualTo(devCode);
         List<Device> devices = deviceMapper.selectByExample(e);
         if (devices == null || devices.size() == 0) {
-            throw new HaltException("没有查询到啊!!!");
+            throw new HaltException(ErrorCode.ERROR_NOT_FIND,"没有查询到啊!!!");
         }
         return devices.get(0);
     }
@@ -377,7 +385,7 @@ public class DevService implements IDevService {
                 .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
         List<Vip> vips = vipMapper.selectByExample(v);
         if (vips.size() == 0) {
-            throw new HaltException("未成为当前设备的会员");
+            throw new HaltException(ErrorCode.ERROR_NO_VIP,"未成为当前设备的会员");
         }
         return 1;
     }
@@ -395,12 +403,12 @@ public class DevService implements IDevService {
     public void checkUserHasDev(Integer devId, Integer userId) {
         Device device = deviceMapper.selectByPrimaryKey(devId);
         if (device == null) {
-            throw new HaltException("未找到指定设备");
+            throw new HaltException(ErrorCode.ERROR_NOT_FIND,"未找到指定设备");
         }
 
         List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, devId, null);
         if (devices == null || devices.size() == 0) {
-            throw new HaltException("设备不属于当前用户，请重新操作");
+            throw new HaltException(ErrorCode.ERROR_UN_BIND,"设备不属于当前用户，请重新操作");
         }
     }
 

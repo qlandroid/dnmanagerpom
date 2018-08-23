@@ -3,7 +3,6 @@ package com.dnmanager.service;
 import com.dnmanager.bean.DevDetails;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
-import com.dnmanager.pojo.DeviceExt;
 import com.github.pagehelper.Page;
 
 import java.util.List;

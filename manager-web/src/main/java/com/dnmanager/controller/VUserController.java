@@ -9,18 +9,14 @@ import com.dnmanager.service.IDevService;
 import com.dnmanager.service.IUserService;
 import com.dnmanager.utils.CheckUtils;
 import com.mysql.jdbc.StringUtils;
-import jodd.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/vuser")
+@RequestMapping(path = "/vuser" ,method = RequestMethod.POST)
 public class VUserController {
 
 

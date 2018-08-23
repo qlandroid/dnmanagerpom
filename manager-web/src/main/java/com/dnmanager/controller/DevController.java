@@ -6,15 +6,16 @@ import com.dnmanager.base.Result;
 import com.dnmanager.bean.DevDetails;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
-import com.dnmanager.pojo.DeviceExt;
 import com.dnmanager.service.IDevService;
 import com.github.pagehelper.Page;
 import com.mysql.jdbc.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

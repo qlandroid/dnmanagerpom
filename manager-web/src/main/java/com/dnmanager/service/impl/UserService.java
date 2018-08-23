@@ -1,7 +1,6 @@
 package com.dnmanager.service.impl;
 
 import com.dnmanager.HaltException;
-import com.dnmanager.bean.UserDetails;
 import com.dnmanager.dao.UserMapper;
 import com.dnmanager.pojo.User;
 import com.dnmanager.pojo.UserExample;
@@ -110,6 +109,6 @@ public class UserService implements IUserService {
 
         User user1 = userMapper.selectByPrimaryKey(user.getId());
 
-        return null;
+        return user1;
     }
 }

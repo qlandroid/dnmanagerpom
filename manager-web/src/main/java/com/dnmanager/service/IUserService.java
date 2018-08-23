@@ -1,7 +1,6 @@
 package com.dnmanager.service;
 
 
-import com.dnmanager.bean.UserDetails;
 import com.dnmanager.pojo.User;
 
 public interface IUserService {

@@ -23,7 +23,7 @@ public class ExceptionOperate {
         response.setStatus(200);
 
         if (ex instanceof HaltException) {
-            writer.append(gson.toJson(Result.error(ex.getMessage())));
+            writer.append(gson.toJson(Result.error(((HaltException) ex).getCode(),ex.getMessage())));
         } else if (ex instanceof NullPointerException) {
             writer.append(gson.toJson(Result.error("当初说好的，我要什么你都会给我的!!!")));
         } else if(ex instanceof ClassCastException){

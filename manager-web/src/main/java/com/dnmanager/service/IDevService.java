@@ -62,9 +62,17 @@ public interface IDevService {
 
     Page warnListByUserId(Integer userId, Integer index, Integer pageSize);
 
-    Page getTransaction(Integer userId, Integer index, Integer pageSize);
+    /**
+     * 通过用户查询 充值记录
+     *
+     * @param userId
+     * @param index
+     * @param pageSize
+     * @return
+     */
+    Page getTransaction(Integer userId,Integer devId, Integer index, Integer pageSize);
 
-    List selectStopDevByUserId(Integer userId,String type);
+    List selectStopDevByUserId(Integer userId, String type);
 
     List selectUseEleOfYearByDevId(Integer userId, Integer devId);
 

@@ -63,7 +63,7 @@ public class WxPayController {
                 //TODO
             }
             //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
-            //return WeixinUtil.resultSuccess();
+//            return WeixinUtil.resultSuccess();
         } catch (Exception ex) {
             logger.warn("微信支付回调地址处理异常:{}", ex);
            // mailTools.SendMail("环境异常,微信支付回调地址处理异常", "异常", ex);

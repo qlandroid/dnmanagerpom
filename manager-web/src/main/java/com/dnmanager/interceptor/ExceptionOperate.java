@@ -21,20 +21,17 @@ public class ExceptionOperate {
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         response.setStatus(200);
-
+        ex.printStackTrace();
         if (ex instanceof HaltException) {
-            writer.append(gson.toJson(Result.error(((HaltException) ex).getCode(),ex.getMessage())));
+            writer.append(gson.toJson(Result.error(((HaltException) ex).getCode(), ex.getMessage())));
         } else if (ex instanceof NullPointerException) {
-            writer.append(gson.toJson(Result.error("当初说好的，我要什么你都会给我的!!!")));
-        } else if(ex instanceof ClassCastException){
-            writer.append(gson.toJson(Result.error("请检查你的三围尺寸!!!")));
+            writer.append(gson.toJson(Result.error("缺少参数")));
+        } else if (ex instanceof ClassCastException) {
+            writer.append(gson.toJson(Result.error("传递参数类型不正确")));
         } else {
-            ex.printStackTrace();
             writer.append(gson.toJson(Result.error("服务器异常，抢修中")));
         }
     }
-
-
 
 
 }

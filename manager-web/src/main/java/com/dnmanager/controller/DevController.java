@@ -36,7 +36,7 @@ public class DevController {
     @ResponseBody
     public Object homePage(@RequestBody Map<String, Object> body) {
         try {
-            Object userId = body.get("userId");
+            Object userId = getUserId(body);
             if (userId == null) {
                 throw new HaltException("玩我呢，你在仔细检查一下");
             }
@@ -62,7 +62,7 @@ public class DevController {
     @ResponseBody
     public Object getDevList(@RequestBody Map<String, Object> body) {
         try {
-            Object us = body.get("userId");
+            Object us = getUserId(body);
             Object devCode = body.get("code");
             if (us == null) {
                 throw new HaltException("玩我呢，你在仔细检查一下");
@@ -82,6 +82,14 @@ public class DevController {
         }
     }
 
+    private Object getUserId(@RequestBody Map<String, Object> body) {
+        Object userId = body.get("userId");
+        if (userId instanceof String) {
+            userId = Integer.parseInt((String) userId);
+        }
+        return userId;
+    }
+
     /**
      * 设备统计，
      *
@@ -91,10 +99,10 @@ public class DevController {
     @ResponseBody
     public Object getDevDetails(@RequestBody Map<String, Object> body) {
         try {
-            Object userId = body.get("userId");
-            Object devId = body.get("devId");
+            Object userId = getUserId(body);
+            Object devId = getDevId(body);
             if (userId == null || devId == null) {
-                throw new HaltException("玩我呢，你在仔细检查一下");
+                throw new HaltException("缺少参数");
 
             }
             DevDetails devDetails = devService.getDevDetails((Integer) userId, (Integer) devId);
@@ -115,14 +123,23 @@ public class DevController {
     @RequestMapping("setDevName")
     @ResponseBody
     public Object setDevName(@RequestBody Map<String, Object> map) {
-        Integer devId = (Integer) map.get("devId");
-        Integer userId = (Integer) map.get("userId");
+        Integer devId = (Integer) getDevId(map);
+        Integer userId = (Integer) getUserId(map);
         String nickName = (String) map.get("nickName");
         if (StringUtils.isNullOrEmpty(nickName)) {
             nickName = "";
         }
         devService.setDevNickName(userId, devId, nickName);
         return Result.ok();
+    }
+
+    private Object getDevId(@RequestBody Map<String, Object> map) {
+
+        Object devId = map.get("devId");
+        if (devId instanceof String) {
+            devId = Integer.parseInt((String) devId);
+        }
+        return devId;
     }
 
     /**
@@ -133,8 +150,8 @@ public class DevController {
     @RequestMapping("getDevStatus")
     @ResponseBody
     public Object getDevStatus(@RequestBody Map<String, Object> map) {
-        Object userId = map.get("userId");
-        Object devId = map.get("devId");
+        Object userId = getUserId(map);
+        Object devId = getDevId(map);
         Device devByDevId = devService.getDevByDevId((Integer) userId, (Integer) devId);
         return Result.ok(devByDevId);
 
@@ -152,8 +169,8 @@ public class DevController {
     @RequestMapping("setDevRunStatus")
     @ResponseBody
     public Object setDevRunStatus(@RequestBody Map<String, Object> map) {
-        Integer devId = (Integer) map.get("devId");
-        Integer userId = (Integer) map.get("userId");
+        Integer devId = (Integer) getDevId(map);
+        Integer userId = (Integer) getUserId(map);
         Integer runStatus = (Integer) map.get("runStatus");
         devService.setDevRunStatus(userId, devId, runStatus);
         return Result.ok();
@@ -164,11 +181,11 @@ public class DevController {
     @ResponseBody
     public Object getWarnMsg(@RequestBody Map<String, Object> map) {
         try {
-            Object userId = map.get("userId");
+            Object userId = getUserId(map);
             Object index = map.get("pageNum");
             Object pageSize = map.get("pageSize");
             if (userId == null) {
-                throw new HaltException("玩我呢，你在仔细检查一下");
+                throw new HaltException("缺少参数");
             }
             Page page = devService.warnListByUserId((Integer) userId, (Integer) index, (Integer) pageSize);
 
@@ -183,18 +200,25 @@ public class DevController {
     }
 
 
+    /**
+     * 充值记录
+     */
     @RequestMapping("getTransaction")
     @ResponseBody
     public Object getTransaction(@RequestBody Map<String, Object> map) {
         try {
-            Object userId = map.get("userId");
+            Object userId = getUserId(map);
             Object index = map.get("pageNum");
             Object pageSize = map.get("pageSize");
+            Object devId = getDevId(map);
             if (userId == null) {
-                throw new HaltException("玩我呢，你在仔细检查一下");
+                throw new HaltException("缺少参数");
             }
-            Page page = devService.getTransaction((Integer) userId, (Integer) index, (Integer) pageSize);
-
+            Integer dId = null;
+            if (devId != null) {
+                dId = (Integer) devId;
+            }
+            Page page = devService.getTransaction((Integer) userId, dId, (Integer) index, (Integer) pageSize);
 
             return Result.okList(page.getResult(), page.getTotal(), page.getPages());
         } catch (HaltException e) {
@@ -210,10 +234,10 @@ public class DevController {
     @ResponseBody
     public Object getStopDev(@RequestBody Map<String, Object> map) {
         try {
-            Object userId = map.get("userId");
+            Object userId = getUserId(map);
             Object type = map.get("type");// 0-停电通知，1-低电量通知
             if (userId == null) {
-                throw new HaltException("玩我呢，你在仔细检查一下");
+                throw new HaltException("缺少参数");
             }
 
             List list = devService.selectStopDevByUserId((Integer) userId, (String) type);
@@ -231,27 +255,27 @@ public class DevController {
     @RequestMapping("useE")
     @ResponseBody
     public Object useE(@RequestBody Map<String, Object> map) {
-        Object userId = map.get("userId");
-        Object devId = map.get("devId");
+        Object userId = getUserId(map);
+        Object devId = getDevId(map);
         Object year = map.get("year");
         Object month = map.get("month");
         Object type = map.get("type");//1- month  2- year;
 
         if (userId == null || devId == null) {
-            throw new HaltException("玩我呢，你在仔细检查一下");
+            throw new HaltException("缺少参数");
         }
         List list = null;
 
         if ("1".equals(type.toString())) {
             if (month == null || year == null) {
-                throw new HaltException("玩我呢，你在仔细检查一下");
+                throw new HaltException("缺少参数");
             }
             list = devService.selectUseEleOfMonthByDevId((Integer) userId, (Integer) devId, (Integer) year, (Integer) month);
         } else if ("2".equals(type.toString())) {
             list = devService.selectUseEleOfYearByDevId((Integer) userId, (Integer) devId);
 
         } else {
-            throw new HaltException("你确定你还爱我吗？你在确定一下我的胸围多少!");
+            throw new HaltException("查询类型不正确");
         }
 
         return Result.okList(list);
@@ -270,8 +294,8 @@ public class DevController {
     @RequestMapping("checkVip")
     @ResponseBody
     public Object checkVip(@RequestBody Map<String, Object> map) {
-        Object userId = map.get("userId");
-        Object devId = map.get("devId");
+        Object userId = getUserId(map);
+        Object devId = getDevId(map);
         Integer integer = devService.checkVip((Integer) userId, (Integer) devId);
         return Result.ok();
     }

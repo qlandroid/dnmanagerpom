@@ -94,7 +94,7 @@ public class VUserController {
     @RequestMapping("setUserDetails")
     @ResponseBody
     public Object setUserDetails(@RequestBody Map<String, Object> map) {
-        Integer userId = (Integer) map.get("userId");
+        Integer userId = (Integer) getUserId(map);
         Object vNickName = map.get("vNickName");
 
         if (vNickName == null) {
@@ -110,12 +110,20 @@ public class VUserController {
         return Result.ok();
     }
 
+    private Object getUserId(@RequestBody Map<String, Object> map) {
+        Object userId = map.get("userId");
+        if (userId instanceof String) {
+            userId = Integer.parseInt((String) userId);
+        }
+        return userId;
+    }
+
 
     @RequestMapping("getUserDetails")
     @ResponseBody
     public Object getUserDetails(@RequestBody Map<String, Object> map) {
         User user = new User();
-        user.setId((Integer) map.get("userId"));
+        user.setId((Integer) getUserId(map));
         User userDetails = userService.getUserDetails(user);
         Integer devCount = devService.getDevCountByUserId(user.getId());
         UserDetails d = new UserDetails();

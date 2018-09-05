@@ -4,11 +4,9 @@
       <root url="jar://$MAVEN_REPOSITORY$/org/mybatis/generator/mybatis-generator-core/1.3.5/mybatis-generator-core-1.3.5.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/mybatis/generator/mybatis-generator-core/unknown/mybatis-generator-core-unknown-javadoc.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/mybatis/generator/mybatis-generator-core/1.3.5/mybatis-generator-core-1.3.5-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/mybatis/generator/mybatis-generator-core/unknown/mybatis-generator-core-unknown-sources.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/mybatis/generator/mybatis-generator-core/1.3.5/mybatis-generator-core-1.3.5-sources.jar!/" />
     </SOURCES>
   </library>

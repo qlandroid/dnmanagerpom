@@ -173,7 +173,7 @@ public class DevService implements IDevService {
                 .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
         List<Vip> vips = vipMapper.selectByExample(v);
         if (vips.size() == 0) {
-            throw new HaltException(ErrorCode.ERROR_NO_VIP,"未成为当前设备的会员");
+            throw new HaltException(ErrorCode.ERROR_NO_VIP, "未成为当前设备的会员");
         }
 
 
@@ -245,11 +245,20 @@ public class DevService implements IDevService {
     }
 
     @Override
-    public Page getTransaction(Integer userId, Integer index, Integer pageSize) {
+    public Page getTransaction(Integer userId, Integer devId, Integer index, Integer pageSize) {
         Page page = PageHelper.startPage(index, pageSize, "create_time DESC");
         TransactionExample t = new TransactionExample();
         TransactionExample.Criteria criteria = t.createCriteria();
         criteria.andUserIdEqualTo(userId);
+        if (devId!=null) {
+            Device device = deviceMapper.selectByPrimaryKey(devId);
+            if (device == null) {
+                throw new HaltException("未找到该设备");
+            }
+            criteria.andCodeEqualTo(device.getCode());
+
+        }
+
         transactionMapper.selectByExample(t);
         return page;
     }
@@ -370,7 +379,7 @@ public class DevService implements IDevService {
         criteria.andCodeEqualTo(devCode);
         List<Device> devices = deviceMapper.selectByExample(e);
         if (devices == null || devices.size() == 0) {
-            throw new HaltException(ErrorCode.ERROR_NOT_FIND,"没有查询到啊!!!");
+            throw new HaltException(ErrorCode.ERROR_NOT_FIND, "没有查询到啊!!!");
         }
         return devices.get(0);
     }
@@ -385,7 +394,7 @@ public class DevService implements IDevService {
                 .andEndTimeGreaterThan(new Date(System.currentTimeMillis()));
         List<Vip> vips = vipMapper.selectByExample(v);
         if (vips.size() == 0) {
-            throw new HaltException(ErrorCode.ERROR_NO_VIP,"未成为当前设备的会员");
+            throw new HaltException(ErrorCode.ERROR_NO_VIP, "未成为当前设备的会员");
         }
         return 1;
     }
@@ -403,12 +412,12 @@ public class DevService implements IDevService {
     public void checkUserHasDev(Integer devId, Integer userId) {
         Device device = deviceMapper.selectByPrimaryKey(devId);
         if (device == null) {
-            throw new HaltException(ErrorCode.ERROR_NOT_FIND,"未找到指定设备");
+            throw new HaltException(ErrorCode.ERROR_NOT_FIND, "未找到指定设备");
         }
 
         List<Device> devices = deviceExtMapper.selectDevListByUserId(userId, devId, null);
         if (devices == null || devices.size() == 0) {
-            throw new HaltException(ErrorCode.ERROR_UN_BIND,"设备不属于当前用户，请重新操作");
+            throw new HaltException(ErrorCode.ERROR_UN_BIND, "设备不属于当前用户，请重新操作");
         }
     }
 

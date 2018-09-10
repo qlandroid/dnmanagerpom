@@ -9,7 +9,7 @@ public class DevDetails {
     private TotalE totalE;//总  统计
     private TotalE monthE;//月份统计
     private TotalE yearE;//年份统计
-    private Double unit;//电表单价
+    private Integer unit;//电表单价
     private Integer bindDate;//绑定日期
     private int buyElectric;//剩余电量
 
@@ -53,14 +53,14 @@ public class DevDetails {
         this.yearE = yearE;
     }
 
-    public Double getUnit() {
+    public Integer getUnit() {
         if (unit == null) {
-            return 0.0d;
+            return 0;
         }
         return unit;
     }
 
-    public void setUnit(Double unit) {
+    public void setUnit(Integer unit) {
         this.unit = unit;
     }
 

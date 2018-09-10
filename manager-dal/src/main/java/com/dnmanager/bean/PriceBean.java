@@ -2,22 +2,22 @@ package com.dnmanager.bean;
 
 public class PriceBean {
 
-    private Double vipUnit;//会员单价
-    private Double eleUnit;//电费单价；
+    private Integer vipUnit;//会员单价
+    private Integer eleUnit;//电费单价；
 
-    public Double getVipUnit() {
+    public Integer getVipUnit() {
         return vipUnit;
     }
 
-    public void setVipUnit(Double vipUnit) {
+    public void setVipUnit(Integer vipUnit) {
         this.vipUnit = vipUnit;
     }
 
-    public Double getEleUnit() {
+    public Integer getEleUnit() {
         return eleUnit;
     }
 
-    public void setEleUnit(Double eleUnit) {
+    public void setEleUnit(Integer eleUnit) {
         this.eleUnit = eleUnit;
     }
 }

@@ -2,10 +2,7 @@ package com.dnmanager.service.impl;
 
 import com.dnmanager.HaltException;
 import com.dnmanager.base.ErrorCode;
-import com.dnmanager.bean.DevDetails;
-import com.dnmanager.bean.PowerRecordExt;
-import com.dnmanager.bean.TotalE;
-import com.dnmanager.bean.WarnMain;
+import com.dnmanager.bean.*;
 import com.dnmanager.dao.*;
 import com.dnmanager.pojo.*;
 import com.dnmanager.select.WarnSelect;
@@ -49,6 +46,10 @@ public class DevService implements IDevService {
 
     @Autowired
     VipMapper vipMapper;
+    @Autowired
+    VipUnitPriceMapper vipUnitPriceMapper;
+    @Autowired
+    EleUnitPriceMapper eleUnitPriceMapper;
 
 
     @Override
@@ -130,7 +131,8 @@ public class DevService implements IDevService {
         devDetails.setPower(status + "");
         //获得单价
         // TODO: 2018/8/18 电量表未获得
-        devDetails.setUnit(1.5);
+        PriceBean price = getPrice();
+        devDetails.setUnit(price.getEleUnit());
 
         //获得剩余金额
         Integer buyElectric = device.getBuyElectric();
@@ -246,11 +248,10 @@ public class DevService implements IDevService {
 
     @Override
     public Page getTransaction(Integer userId, Integer devId, Integer index, Integer pageSize) {
-        Page page = PageHelper.startPage(index, pageSize, "create_time DESC");
         TransactionExample t = new TransactionExample();
         TransactionExample.Criteria criteria = t.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        if (devId!=null) {
+        if (devId != null) {
             Device device = deviceMapper.selectByPrimaryKey(devId);
             if (device == null) {
                 throw new HaltException("未找到该设备");
@@ -258,7 +259,7 @@ public class DevService implements IDevService {
             criteria.andCodeEqualTo(device.getCode());
 
         }
-
+        Page page = PageHelper.startPage(index, pageSize, "create_time DESC");
         transactionMapper.selectByExample(t);
         return page;
     }
@@ -406,6 +407,34 @@ public class DevService implements IDevService {
         criteria.andUsersIdEqualTo(id);
         List<UserDevice> userDevices = userDeviceMapper.selectByExample(e);
         return userDevices.size();
+    }
+
+    @Override
+    public PriceBean getPrice() {
+        PriceBean bean = new PriceBean();
+
+        EleUnitPriceExample o = new EleUnitPriceExample();
+        o.setOrderByClause("id DESC");
+        List<EleUnitPrice> eleUnitPrices = eleUnitPriceMapper.selectByExample(o);
+        if (eleUnitPrices.size() > 0) {
+            EleUnitPrice eleUnitPrice = eleUnitPrices.get(0);
+            bean.setEleUnit(eleUnitPrice.getEleUnitPrice());
+        } else {
+            bean.setEleUnit(10);
+        }
+
+
+        VipUnitPriceExample v = new VipUnitPriceExample();
+        v.setOrderByClause("id DESC");
+        List<VipUnitPrice> vipUnitPrices = vipUnitPriceMapper.selectByExample(v);
+        if (vipUnitPrices.size() > 0) {
+            VipUnitPrice vipUnitPrice = vipUnitPrices.get(0);
+            bean.setVipUnit(vipUnitPrice.getVipUnitPrice());
+        } else {
+            bean.setVipUnit(500);
+        }
+
+        return bean;
     }
 
 

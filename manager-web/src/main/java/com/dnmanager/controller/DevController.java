@@ -4,12 +4,14 @@ package com.dnmanager.controller;
 import com.dnmanager.HaltException;
 import com.dnmanager.base.Result;
 import com.dnmanager.bean.DevDetails;
+import com.dnmanager.bean.PriceBean;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
 import com.dnmanager.service.IDevService;
 import com.github.pagehelper.Page;
 import com.mysql.jdbc.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,14 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/dev")
 public class DevController {
-    Logger logger = Logger.getLogger(DevController.class);
+    Logger logger = LoggerFactory.getLogger(DevController.class);
 
     @Autowired
     IDevService devService;
+
+
+
+
 
     /**
      * 获得首页信息

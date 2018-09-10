@@ -1,6 +1,7 @@
 package com.dnmanager.service;
 
 import com.dnmanager.bean.DevDetails;
+import com.dnmanager.bean.PriceBean;
 import com.dnmanager.bean.WarnMain;
 import com.dnmanager.pojo.Device;
 import com.github.pagehelper.Page;
@@ -83,4 +84,6 @@ public interface IDevService {
     Integer checkVip(Integer userId, Integer devId);
 
     Integer getDevCountByUserId(Integer id);
+
+    PriceBean getPrice();
 }

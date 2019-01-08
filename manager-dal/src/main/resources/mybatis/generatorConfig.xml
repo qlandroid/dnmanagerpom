@@ -62,8 +62,14 @@
 		<!--<table tableName="user_device" domainObjectName="UserDevice"></table>-->
 		<!--<table tableName="user_openid" domainObjectName="UserOpenId"></table>-->
 		<!--<table tableName="vip" domainObjectName="Vip"></table>-->
-		<table tableName="commodity" domainObjectName="Commodity"></table>
-		<table tableName="app_order_info" domainObjectName="AppOrderInfo"></table>
+		<!--<table tableName="commodity" domainObjectName="Commodity"></table>-->
+		<!--<table tableName="app_order_info" domainObjectName="AppOrderInfo"></table>-->
+		<!--<table tableName="user" domainObjectName="User"></table>-->
+		<!--<table tableName="user" domainObjectName="User"></table>-->
+		<!--<table tableName="yt_led_num" domainObjectName="YtLedNum"></table>-->
+		<!--<table tableName="yt_ledger" domainObjectName="YtLedger"></table>-->
+		<table tableName="yt_order" domainObjectName="YtOrder"></table>
+
 
 	</context>
 </generatorConfiguration>

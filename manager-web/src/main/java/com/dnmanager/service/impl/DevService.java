@@ -7,9 +7,10 @@ import com.dnmanager.dao.*;
 import com.dnmanager.pojo.*;
 import com.dnmanager.select.WarnSelect;
 import com.dnmanager.service.IDevService;
-import com.dnmanager.utils.DateUtils;
+import com.dnmanager.utils.DateDUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Maps;
 import com.mysql.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ public class DevService implements IDevService {
     VipUnitPriceMapper vipUnitPriceMapper;
     @Autowired
     EleUnitPriceMapper eleUnitPriceMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
 
 
     @Override
@@ -93,7 +96,7 @@ public class DevService implements IDevService {
         //获得当前月的总量
         int month = s.get(Calendar.MONTH);
         int year = s.get(Calendar.YEAR);
-        DateUtils.DateTime startAndEndTimeByMonth = DateUtils.getStartAndEndTimeByMonth(year, month);
+        DateDUtils.DateTime startAndEndTimeByMonth = DateDUtils.getStartAndEndTimeByMonth(year, month);
         e.setStartD(startAndEndTimeByMonth.startT);
         e.setEndD(startAndEndTimeByMonth.endT);
         Long recordByMonth = powerRecordExtMapper.getPowerRecordSum(e);
@@ -105,7 +108,7 @@ public class DevService implements IDevService {
         logger.debug("获得当前月的总量");
 
         //获得年度总量
-        DateUtils.DateTime startAndEndTimeByYear = DateUtils.getStartAndEndTimeByYear(year);
+        DateDUtils.DateTime startAndEndTimeByYear = DateDUtils.getStartAndEndTimeByYear(year);
         e.setStartD(startAndEndTimeByYear.startT);
         e.setEndD(startAndEndTimeByYear.endT);
         Long recordByYear = powerRecordExtMapper.getPowerRecordSum(e);
@@ -431,10 +434,27 @@ public class DevService implements IDevService {
             VipUnitPrice vipUnitPrice = vipUnitPrices.get(0);
             bean.setVipUnit(vipUnitPrice.getVipUnitPrice());
         } else {
-            bean.setVipUnit(500);
+            bean.setVipUnit(200);
         }
 
         return bean;
+    }
+
+    @Override
+    public Object getVipPriceByDev(Integer devId) {
+        Device device = deviceMapper.selectByPrimaryKey(devId);
+        try {
+            Operator operator = operatorMapper.selectByPrimaryKey(device.getOperatorId());
+            Category category = categoryMapper.selectByPrimaryKey(operator.getCategoryId());
+            return category;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("vipPrice", 200);
+            return map;
+        }
+
+
     }
 
 

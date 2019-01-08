@@ -34,7 +34,7 @@ public class UserService implements IUserService {
             throw new HaltException("手机已经被注册过了，请重新编写手机");
         }
         user.setPassword("app_account");
-        user.setRegTime((int)(System.currentTimeMillis() / 1000) );
+        user.setRegTime((int) (System.currentTimeMillis() / 1000));
         int i = userMapper.insertSelective(user);
 
         return true;
@@ -48,6 +48,7 @@ public class UserService implements IUserService {
         UserExample.Criteria criteria = u.createCriteria();
         criteria.andVAccountEqualTo(account);
         List<User> users = userMapper.selectByExample(u);
+        User searchUser = null;
         if (users.size() == 0) {
             u.clear();
             UserExample.Criteria vPhone = u.createCriteria();
@@ -56,24 +57,15 @@ public class UserService implements IUserService {
             if (vphones.size() == 0) {
                 throw new HaltException("账号不存在");
             }
-
-        }
-        criteria.andVPasswordEqualTo(user.getvPassword());
-        List<User> users1 = userMapper.selectByExample(u);
-        if (users1.size() == 0) {
-            u.clear();
-            UserExample.Criteria phone2 = u.createCriteria();
-            phone2.andVPhoneEqualTo(user.getvAccount())
-                    .andVPasswordEqualTo(user.getvPassword());
-
-            criteria.andVPasswordEqualTo(user.getvPassword());
-            List<User> phoneUser = userMapper.selectByExample(u);
-            if (users1.size() == 0) {
-                throw new HaltException("账号与密码不匹配");
-            }
+            searchUser = vphones.get(0);
+        } else {
+            searchUser = users.get(0);
         }
 
-        return users1.get(0);
+        if (!searchUser.getvPassword().equals(user.getvPassword())) {
+            throw new HaltException("账号或密码不正确");
+        }
+        return searchUser;
     }
 
     @Override

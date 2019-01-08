@@ -29,6 +29,12 @@ public class User {
 
     private String vPhone;
 
+    private String ytNum;
+
+    private Integer recMoney;
+
+    private Integer ledType;
+
     public Integer getId() {
         return id;
     }
@@ -139,5 +145,29 @@ public class User {
 
     public void setvPhone(String vPhone) {
         this.vPhone = vPhone == null ? null : vPhone.trim();
+    }
+
+    public String getYtNum() {
+        return ytNum;
+    }
+
+    public void setYtNum(String ytNum) {
+        this.ytNum = ytNum == null ? null : ytNum.trim();
+    }
+
+    public Integer getRecMoney() {
+        return recMoney;
+    }
+
+    public void setRecMoney(Integer recMoney) {
+        this.recMoney = recMoney;
+    }
+
+    public Integer getLedType() {
+        return ledType;
+    }
+
+    public void setLedType(Integer ledType) {
+        this.ledType = ledType;
     }
 }

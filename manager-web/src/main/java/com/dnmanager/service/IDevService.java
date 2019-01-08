@@ -86,4 +86,6 @@ public interface IDevService {
     Integer getDevCountByUserId(Integer id);
 
     PriceBean getPrice();
+
+    Object getVipPriceByDev(Integer devId);
 }

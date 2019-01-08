@@ -50,6 +50,14 @@ public class ShoppingService implements IShoppingService {
         if (goodsId == null) {
             throw new HaltException(ErrorCode.ERROR_NOT_FIND, "没有找到商品");
         }
+
+        if (StringUtils.isNullOrEmpty(info.getCategory())) {
+            throw new HaltException("请输入运营商名称");
+        }
+        if (info.getPrice() == null || info.getPrice() == 0) {
+            throw new HaltException("请输入正确的电费单价");
+        }
+
         if (info.getDeviceNum() == null || info.getDeviceNum() < 1) {
             throw new HaltException("设备数量不正确");
         }
@@ -82,6 +90,9 @@ public class ShoppingService implements IShoppingService {
         info.setDeviceType(commodity.getElecType());
         info.setVoltage(commodity.getVoltage());
         info.setCurrentSpec(commodity.getCurrentSpec());
+        info.setVipPrice(500);
+        info.setVipCharge(50);
+        info.setCharge(10);
         appOrderInfoMapper.insertSelective(info);
     }
 }

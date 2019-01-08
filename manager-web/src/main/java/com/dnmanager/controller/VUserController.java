@@ -11,12 +11,14 @@ import com.dnmanager.utils.CheckUtils;
 import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/vuser" ,method = RequestMethod.POST)
+@RequestMapping(path = "/vuser", method = RequestMethod.POST)
 public class VUserController {
 
 
@@ -44,12 +46,19 @@ public class VUserController {
         if (StringUtils.isNullOrEmpty(vPhone) || vPhone.length() < 11 || !CheckUtils.isMobileNO(vPhone)) {
             throw new HaltException("请输入正确手机号");
         }
+        BASE64Encoder encoder = new BASE64Encoder();
+        try {
+            String encode = encoder.encode(vPassword.getBytes("UTF-8"));
+            User insertUser = new User();
+            insertUser.setvAccount(vAccount);
+            insertUser.setvPassword(encode);
+            insertUser.setvPhone(vPhone);
+            userService.reg(insertUser);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new HaltException("密码加密失败");
+        }
 
-        User insertUser = new User();
-        insertUser.setvAccount(vAccount);
-        insertUser.setvPassword(vPassword);
-        insertUser.setvPhone(vPhone);
-        userService.reg(insertUser);
 
         return Result.ok();
     }
@@ -68,9 +77,18 @@ public class VUserController {
             throw new HaltException("密码长度不能小于6");
         }
         User insertUser = new User();
-        insertUser.setvPassword(vPassword);
-        insertUser.setvPhone(vPhone);
-        userService.forgetPw(insertUser);
+
+        BASE64Encoder encoder = new BASE64Encoder();
+        try {
+            String encode = encoder.encode(vPassword.getBytes("UTF-8"));
+            insertUser.setvPassword(encode);
+            insertUser.setvPhone(vPhone);
+            userService.forgetPw(insertUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HaltException("密码加密失败");
+        }
+
 
         return Result.ok();
     }
@@ -80,15 +98,23 @@ public class VUserController {
     public Object login(@RequestBody Map<String, Object> map) {
         String vAccount = (String) map.get("vAccount");
         String vPassword = (String) map.get("vPassword");
+        BASE64Encoder encoder = new BASE64Encoder();
+        try {
+            String encode = encoder.encode(vPassword.getBytes("UTF-8"));
+            User insertUser = new User();
+            insertUser.setvAccount(vAccount);
+            insertUser.setvPassword(encode);
+            User login = userService.login(insertUser);
+            Map<String, Object> re = new HashMap<>();
+            re.put("userId", login.getId());
+            return Result.ok(re);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HaltException("密码加密失败");
+
+        }
 
 
-        User insertUser = new User();
-        insertUser.setvAccount(vAccount);
-        insertUser.setvPassword(vPassword);
-        User login = userService.login(insertUser);
-        Map<String, Object> re = new HashMap<>();
-        re.put("userId", login.getId());
-        return Result.ok(re);
     }
 
     @RequestMapping("setUserDetails")

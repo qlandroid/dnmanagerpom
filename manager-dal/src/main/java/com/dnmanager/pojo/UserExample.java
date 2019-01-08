@@ -1023,6 +1023,196 @@ public class UserExample {
             addCriterion("v_phone not between", value1, value2, "vPhone");
             return (Criteria) this;
         }
+
+        public Criteria andYtNumIsNull() {
+            addCriterion("yt_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumIsNotNull() {
+            addCriterion("yt_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumEqualTo(String value) {
+            addCriterion("yt_num =", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumNotEqualTo(String value) {
+            addCriterion("yt_num <>", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumGreaterThan(String value) {
+            addCriterion("yt_num >", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumGreaterThanOrEqualTo(String value) {
+            addCriterion("yt_num >=", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumLessThan(String value) {
+            addCriterion("yt_num <", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumLessThanOrEqualTo(String value) {
+            addCriterion("yt_num <=", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumLike(String value) {
+            addCriterion("yt_num like", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumNotLike(String value) {
+            addCriterion("yt_num not like", value, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumIn(List<String> values) {
+            addCriterion("yt_num in", values, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumNotIn(List<String> values) {
+            addCriterion("yt_num not in", values, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumBetween(String value1, String value2) {
+            addCriterion("yt_num between", value1, value2, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtNumNotBetween(String value1, String value2) {
+            addCriterion("yt_num not between", value1, value2, "ytNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyIsNull() {
+            addCriterion("rec_money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyIsNotNull() {
+            addCriterion("rec_money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyEqualTo(Integer value) {
+            addCriterion("rec_money =", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyNotEqualTo(Integer value) {
+            addCriterion("rec_money <>", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyGreaterThan(Integer value) {
+            addCriterion("rec_money >", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("rec_money >=", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyLessThan(Integer value) {
+            addCriterion("rec_money <", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("rec_money <=", value, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyIn(List<Integer> values) {
+            addCriterion("rec_money in", values, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyNotIn(List<Integer> values) {
+            addCriterion("rec_money not in", values, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyBetween(Integer value1, Integer value2) {
+            addCriterion("rec_money between", value1, value2, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecMoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("rec_money not between", value1, value2, "recMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeIsNull() {
+            addCriterion("led_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeIsNotNull() {
+            addCriterion("led_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeEqualTo(Integer value) {
+            addCriterion("led_type =", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeNotEqualTo(Integer value) {
+            addCriterion("led_type <>", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeGreaterThan(Integer value) {
+            addCriterion("led_type >", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("led_type >=", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeLessThan(Integer value) {
+            addCriterion("led_type <", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("led_type <=", value, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeIn(List<Integer> values) {
+            addCriterion("led_type in", values, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeNotIn(List<Integer> values) {
+            addCriterion("led_type not in", values, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeBetween(Integer value1, Integer value2) {
+            addCriterion("led_type between", value1, value2, "ledType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLedTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("led_type not between", value1, value2, "ledType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

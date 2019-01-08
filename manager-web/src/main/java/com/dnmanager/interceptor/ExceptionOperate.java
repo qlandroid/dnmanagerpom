@@ -25,7 +25,7 @@ public class ExceptionOperate {
         if (ex instanceof HaltException) {
             writer.append(gson.toJson(Result.error(((HaltException) ex).getCode(), ex.getMessage())));
         } else if (ex instanceof NullPointerException) {
-            writer.append(gson.toJson(Result.error("缺少参数")));
+            writer.append(gson.toJson(Result.error("服务器异常-存在空指针")));
         } else if (ex instanceof ClassCastException) {
             writer.append(gson.toJson(Result.error("传递参数类型不正确")));
         } else {

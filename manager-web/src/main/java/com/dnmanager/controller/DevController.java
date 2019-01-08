@@ -306,5 +306,13 @@ public class DevController {
         return Result.ok();
     }
 
+    @RequestMapping("getVipPriceByDev")
+    @ResponseBody
+    public Object getVipPrice(@RequestBody Map<String,Object> map){
+
+       Object o = devService.getVipPriceByDev((Integer) map.get("devId"));
+        return Result.ok(o);
+    }
+
 
 }

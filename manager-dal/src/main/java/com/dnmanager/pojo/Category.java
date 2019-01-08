@@ -9,6 +9,8 @@ public class Category {
 
     private Integer vipCharge;
 
+    private String ytAccount;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class Category {
 
     public void setVipCharge(Integer vipCharge) {
         this.vipCharge = vipCharge;
+    }
+
+    public String getYtAccount() {
+        return ytAccount;
+    }
+
+    public void setYtAccount(String ytAccount) {
+        this.ytAccount = ytAccount == null ? null : ytAccount.trim();
     }
 }

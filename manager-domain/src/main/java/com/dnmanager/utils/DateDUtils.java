@@ -3,7 +3,7 @@ package com.dnmanager.utils;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class DateUtils {
+public class DateDUtils {
 
 
     /**

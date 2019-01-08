@@ -353,6 +353,76 @@ public class CategoryExample {
             addCriterion("vip_charge not between", value1, value2, "vipCharge");
             return (Criteria) this;
         }
+
+        public Criteria andYtAccountIsNull() {
+            addCriterion("yt_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountIsNotNull() {
+            addCriterion("yt_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountEqualTo(String value) {
+            addCriterion("yt_account =", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountNotEqualTo(String value) {
+            addCriterion("yt_account <>", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountGreaterThan(String value) {
+            addCriterion("yt_account >", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("yt_account >=", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountLessThan(String value) {
+            addCriterion("yt_account <", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountLessThanOrEqualTo(String value) {
+            addCriterion("yt_account <=", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountLike(String value) {
+            addCriterion("yt_account like", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountNotLike(String value) {
+            addCriterion("yt_account not like", value, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountIn(List<String> values) {
+            addCriterion("yt_account in", values, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountNotIn(List<String> values) {
+            addCriterion("yt_account not in", values, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountBetween(String value1, String value2) {
+            addCriterion("yt_account between", value1, value2, "ytAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andYtAccountNotBetween(String value1, String value2) {
+            addCriterion("yt_account not between", value1, value2, "ytAccount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

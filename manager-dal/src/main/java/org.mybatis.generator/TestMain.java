@@ -1,12 +1,19 @@
 package org.mybatis.generator;
 
+import com.dnmanager.pojo.User;
+import sun.misc.BASE64Encoder;
+
+import java.io.UnsupportedEncodingException;
+
 public class TestMain {
     public static void main(String[] args) {
-        int total = 0;
-        for (int i = 0; i < 360; i++) {
-            total += i;
-        }
+        BASE64Encoder encoder = new BASE64Encoder();
+        try {
+            String encode = encoder.encode("123456".getBytes("UTF-8"));
+            System.out.println(encode);
 
-        System.out.println("一共金额:" + total);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }
